@@ -18,7 +18,13 @@ import java.util.List;
  * @author nikita
  */
 public class CSVProcessor {
-    private String delimeter;
+    /**
+     * Delimiter used to separate values in csv.
+     */
+    private String delimiter;
+    /**
+     * Container that aggregates values from csv file.
+     */
     private List<String> rows = new ArrayList<String>();
 
     /**
@@ -38,8 +44,12 @@ public class CSVProcessor {
         this.rows = rows;
     }
 
-    public CSVProcessor(String delimeter) {
-        this.delimeter = delimeter;
+    /**
+     * @param delimeter
+     *        Delimiter used to separate values in csv file.
+     */
+    public CSVProcessor(final String delimeter) {
+        this.delimiter = delimeter;
     }
 
     /**
@@ -47,6 +57,7 @@ public class CSVProcessor {
      * @param file
      *        File to read lines from.
      * @throws IOException
+     *         if have problems with File loading.
      */
     public final void loadFromFile(final File file) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -59,8 +70,9 @@ public class CSVProcessor {
     /**
      * Write csv lines to file.
      * @param file
-     *          File to write lines into.
+     *        File to write lines into.
      * @throws IOException
+     *         if have problems with saving to File.
      */
     public final void saveToFile(final File file) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -74,12 +86,11 @@ public class CSVProcessor {
     /**
      * Serialize String List of csv lines into file.
      * @param file
-     *  File to serialize into.
-     * @throws FileNotFoundException
+     *        File to serialize into.
      * @throws IOException
+     *         if have problems with serializing or writhing to File.
      */
-    public final void serialize(final File file) throws FileNotFoundException,
-            IOException {
+    public final void serialize(final File file) throws IOException {
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(
                 file));
         os.writeObject(this.rows);
@@ -89,13 +100,14 @@ public class CSVProcessor {
     /**
      * Deserialize String List from file.
      * @param file
-     *  File to get Object from.
-     * @throws FileNotFoundException
+     *        File to get Object from.
      * @throws IOException
+     *         if have problems with deserializing or reading to File.
      * @throws ClassNotFoundException
+     *         when there is no such class to serialize.
      */
-    public final void deserialize(final File file) throws FileNotFoundException,
-            IOException, ClassNotFoundException {
+    public final void deserialize(final File file)
+            throws IOException, ClassNotFoundException {
         ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
         this.rows = (List<String>) is.readObject();
         is.close();
