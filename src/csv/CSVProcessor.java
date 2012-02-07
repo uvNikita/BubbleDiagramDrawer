@@ -45,8 +45,8 @@ public class CSVProcessor {
      */
     public final void deserialize(final File file) throws IOException,
             ClassNotFoundException {
-        final ObjectInputStream is = new ObjectInputStream(new FileInputStream(
-                file));
+        final ObjectInputStream is = new ObjectInputStream(
+                new FileInputStream(file));
         this.rows = (List<String>) is.readObject();
         is.close();
     }
@@ -76,15 +76,20 @@ public class CSVProcessor {
 
     public Double[][] parse() throws CSVParseException {
         final int height = this.rows.size();
+        if(height == 0) {
+            return new Double[0][0];
+        }
         final int width = this.rows.get(0).split(this.delimiter).length;
         final Double[][] table = new Double[height][width];
         for (int i = 0; i < height; i++) {
             final String[] row = this.rows.get(i).split(this.delimiter);
             for (int j = 0; j < width; j++) {
+
+                if (row.length != width) {
+                    throw new CSVParseException(
+                            "Length of rows doesn't match", i);
+                }
                 try {
-                    if (row.length != width)
-                        throw new CSVParseException(
-                                "Length of rows doesn't match", i);
                     table[i][j] = new Double(row[j]);
                 } catch (final Exception e) {
                     throw new CSVParseException(e.getMessage(), i);
