@@ -2,6 +2,7 @@ package test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import csv.CSVProcessor;
@@ -16,7 +17,7 @@ public class TestIO {
      */
     public static void main(final String[] args) throws IOException {
         File ser = new File("serialized.dat");
-        CSVProcessor csvproc = new CSVProcessor(",");
+        CSVProcessor csvproc = new CSVProcessor(" ");
         if (ser.exists()) {
             try {
                 csvproc.deserialize(ser);
@@ -45,7 +46,16 @@ public class TestIO {
                 }
             }
         }
-        System.out.println(csvproc.getRows());
+        ParseThread thread = new ParseThread(csvproc);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (Double [] row : thread.getResult()) {
+            System.out.println(Arrays.toString(row));
+        }
         csvproc.serialize(ser);
     }
 
