@@ -74,9 +74,16 @@ public class CSVProcessor {
         br.close();
     }
 
-    public Double[][] parse() throws CSVParseException {
+    /**
+     * Parses csv values from container.
+     * @return Double[][] table contained parsed values.
+     * @throws CSVParseException
+     *         if something wrong with parse stage. For example length of rows
+     *         doesn't match or not all of values are double.
+     */
+    public final Double[][] parse() throws CSVParseException {
         final int height = this.rows.size();
-        if(height == 0) {
+        if (height == 0) {
             return new Double[0][0];
         }
         final int width = this.rows.get(0).split(this.delimiter).length;

@@ -23,7 +23,7 @@ public class ParseThread extends Thread {
      * @param csvproc
      * Which {@link CSVProcessor} use to parse values.
      */
-    public ParseThread(CSVProcessor csvproc) {
+    public ParseThread(final CSVProcessor csvproc) {
         this.csvproc = csvproc;
     }
 
