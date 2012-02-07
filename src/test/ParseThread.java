@@ -3,11 +3,26 @@ package test;
 import csv.CSVParseException;
 import csv.CSVProcessor;
 
+/**
+ * @author nikita
+ * Thread for parsing csv files.
+ */
 public class ParseThread extends Thread {
 
+    /**
+     * Result of parse.
+     */
     private Double[][] result;
+    /**
+     * CSVProcessor used to parse.
+     */
     private CSVProcessor csvproc;
 
+    /**
+     * Creates ParseThread with specific CSVProcessor.
+     * @param csvproc
+     * Which {@link CSVProcessor} use to parse values.
+     */
     public ParseThread(CSVProcessor csvproc) {
         this.csvproc = csvproc;
     }
