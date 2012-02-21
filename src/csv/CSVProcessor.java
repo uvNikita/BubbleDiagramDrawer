@@ -20,28 +20,11 @@ public class CSVProcessor {
     /**
      * Delimiter used to separate values in csv.
      */
-    private String delimiter;
+    private final String delimiter;
     /**
      * Container that aggregates values from csv file.
      */
     private List<String> rows = new ArrayList<String>();
-
-    /**
-     * Get current value of rows.
-     * @return the rows
-     */
-    public final List<String> getRows() {
-        return rows;
-    }
-
-    /**
-     * Set new value of rows.
-     * @param rows
-     *        the rows to set
-     */
-    public final void setRows(final List<String> rows) {
-        this.rows = rows;
-    }
 
     /**
      * @param delimeter
@@ -52,6 +35,31 @@ public class CSVProcessor {
     }
 
     /**
+     * Deserialize String List from file.
+     * @param file
+     *        File to get Object from.
+     * @throws IOException
+     *         if have problems with deserializing or reading to File.
+     * @throws ClassNotFoundException
+     *         when there is no such class to serialize.
+     */
+    public final void deserialize(final File file) throws IOException,
+            ClassNotFoundException {
+        final ObjectInputStream is = new ObjectInputStream(
+                new FileInputStream(file));
+        this.rows = (List<String>) is.readObject();
+        is.close();
+    }
+
+    /**
+     * Get current value of rows.
+     * @return the rows
+     */
+    public final List<String> getRows() {
+        return rows;
+    }
+
+    /**
      * Read csv lines from file.
      * @param file
      *        File to read lines from.
@@ -59,11 +67,44 @@ public class CSVProcessor {
      *         if have problems with File loading.
      */
     public final void loadFromFile(final File file) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
+        final BufferedReader br = new BufferedReader(new FileReader(file));
         while (br.ready()) {
             this.rows.add(br.readLine());
         }
         br.close();
+    }
+
+    /**
+     * Parses csv values from container.
+     * @return Double[][] table contained parsed values.
+     * @throws CSVParseException
+     *         if something wrong with parse stage. For example length of rows
+     *         doesn't match or not all of values are double.
+     */
+    public final Double[][] parse() throws CSVParseException {
+        final int height = this.rows.size();
+        if (height == 0) {
+            return new Double[0][0];
+        }
+        final int width = this.rows.get(0).split(this.delimiter).length;
+        final Double[][] table = new Double[height][width];
+        for (int i = 0; i < height; i++) {
+            final String[] row = this.rows.get(i).split(this.delimiter);
+            for (int j = 0; j < width; j++) {
+
+                if (row.length != width) {
+                    throw new CSVParseException(
+                            "Length of rows doesn't match", i);
+                }
+                try {
+                    table[i][j] = new Double(row[j]);
+                } catch (final Exception e) {
+                    throw new CSVParseException(e.getMessage(), i);
+                }
+            }
+        }
+        return table;
+
     }
 
     /**
@@ -74,8 +115,8 @@ public class CSVProcessor {
      *         if have problems with saving to File.
      */
     public final void saveToFile(final File file) throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        for (String row : this.rows) {
+        final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        for (final String row : this.rows) {
             bw.write(row);
             bw.newLine();
         }
@@ -90,25 +131,18 @@ public class CSVProcessor {
      *         if have problems with serializing or writhing to File.
      */
     public final void serialize(final File file) throws IOException {
-        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(
-                file));
+        final ObjectOutputStream os = new ObjectOutputStream(
+                new FileOutputStream(file));
         os.writeObject(this.rows);
         os.close();
     }
 
     /**
-     * Deserialize String List from file.
-     * @param file
-     *        File to get Object from.
-     * @throws IOException
-     *         if have problems with deserializing or reading to File.
-     * @throws ClassNotFoundException
-     *         when there is no such class to serialize.
+     * Set new value of rows.
+     * @param rows
+     *        the rows to set
      */
-    public final void deserialize(final File file)
-            throws IOException, ClassNotFoundException {
-        ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
-        this.rows = (List<String>) is.readObject();
-        is.close();
+    public final void setRows(final List<String> rows) {
+        this.rows = rows;
     }
 }
