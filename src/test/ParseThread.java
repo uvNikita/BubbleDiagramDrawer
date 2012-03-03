@@ -12,7 +12,7 @@ public class ParseThread extends Thread {
     /**
      * Result of parse.
      */
-    private Double[][] result;
+    private double[][] result;
     /**
      * CSVProcessor used to parse.
      */
@@ -40,7 +40,7 @@ public class ParseThread extends Thread {
      * Get current value of result.
      * @return the result
      */
-    public final Double[][] getResult() {
+    public final double[][] getResult() {
         return result;
     }
 

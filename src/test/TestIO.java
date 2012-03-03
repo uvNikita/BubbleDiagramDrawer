@@ -53,7 +53,7 @@ public class TestIO {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for (Double [] row : thread.getResult()) {
+        for (double[] row : thread.getResult()) {
             System.out.println(Arrays.toString(row));
         }
         csvproc.serialize(ser);

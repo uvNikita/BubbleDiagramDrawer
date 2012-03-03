@@ -81,13 +81,13 @@ public class CSVProcessor {
      *         if something wrong with parse stage. For example length of rows
      *         doesn't match or not all of values are double.
      */
-    public final Double[][] parse() throws CSVParseException {
+    public final double[][] parse() throws CSVParseException {
         final int height = this.rows.size();
         if (height == 0) {
-            return new Double[0][0];
+            return new double[0][0];
         }
         final int width = this.rows.get(0).split(this.delimiter).length;
-        final Double[][] table = new Double[height][width];
+        final double[][] table = new double[height][width];
         for (int i = 0; i < height; i++) {
             final String[] row = this.rows.get(i).split(this.delimiter);
             for (int j = 0; j < width; j++) {
@@ -97,7 +97,7 @@ public class CSVProcessor {
                             "Length of rows doesn't match", i);
                 }
                 try {
-                    table[i][j] = new Double(row[j]);
+                    table[i][j] = Double.parseDouble(row[j]);
                 } catch (final Exception e) {
                     throw new CSVParseException(e.getMessage(), i);
                 }
