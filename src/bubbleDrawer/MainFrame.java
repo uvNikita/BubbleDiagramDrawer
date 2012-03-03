@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -25,8 +27,9 @@ public class MainFrame extends JFrame {
      */
     public static void main(final String[] args) throws IOException,
             CSVParseException {
+        Logger root = Logger.getLogger("");
+        root.setLevel(Level.INFO);
         final JFrame jf = new MainFrame();
-
         jf.setVisible(true);
     }
 

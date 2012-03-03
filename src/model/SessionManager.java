@@ -2,11 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author nikita
  */
 public class SessionManager implements DocumentHolder {
+    private Logger log = Logger.getLogger(SessionManager.class.getName());
     private List<Bubble> currentDocument;
 
     public SessionManager() {
@@ -27,6 +29,7 @@ public class SessionManager implements DocumentHolder {
         for (final double[] ds : doc) {
             this.currentDocument.add(new Bubble(ds[0], ds[1], ds[2]));
         }
+        log.info(String.format("Current document: %s", this.currentDocument));
     }
 
     /*
