@@ -1,9 +1,9 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface DocumentHolder {
-    ArrayList<Bubble> getCurrentDocument();
+    List<Bubble> getCurrentDocument();
 
-    void setCurrentDocument(ArrayList<Bubble> document);
+    void setCurrentDocument(List<Bubble> doc);
 }
