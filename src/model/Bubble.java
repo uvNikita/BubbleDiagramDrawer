@@ -19,8 +19,12 @@ public class Bubble {
         this.radius = radius;
     }
 
-    public String toString() {
-        return String.format("Bubble(%f, %f, %f)", x, y, radius);
+    /**
+     * Get current value of radius.
+     * @return the radius
+     */
+    public final double getRadius() {
+        return radius;
     }
 
     /**
@@ -32,14 +36,6 @@ public class Bubble {
     }
 
     /**
-     * Set new value of x.
-     * @param x the x to set
-     */
-    public final void setX(double x) {
-        this.x = x;
-    }
-
-    /**
      * Get current value of y.
      * @return the y
      */
@@ -48,27 +44,35 @@ public class Bubble {
     }
 
     /**
-     * Set new value of y.
-     * @param y the y to set
+     * Set new value of radius.
+     * @param radius
+     *        the radius to set
      */
-    public final void setY(double y) {
+    public final void setRadius(final double radius) {
+        this.radius = radius;
+    }
+
+    /**
+     * Set new value of x.
+     * @param x
+     *        the x to set
+     */
+    public final void setX(final double x) {
+        this.x = x;
+    }
+
+    /**
+     * Set new value of y.
+     * @param y
+     *        the y to set
+     */
+    public final void setY(final double y) {
         this.y = y;
     }
 
-    /**
-     * Get current value of radius.
-     * @return the radius
-     */
-    public final double getRadius() {
-        return radius;
-    }
-
-    /**
-     * Set new value of radius.
-     * @param radius the radius to set
-     */
-    public final void setRadius(double radius) {
-        this.radius = radius;
+    @Override
+    public String toString() {
+        return String.format("Bubble(%f, %f, %f)", x, y, radius);
     }
 
 }
