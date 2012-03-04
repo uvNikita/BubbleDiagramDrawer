@@ -24,7 +24,7 @@ public class SessionManager implements DocumentHolder {
         return this.currentDocument;
     }
 
-    public final void setCurrentDocument(final double[][] doc) {
+    public final void setCurrentDocumentAsArray(final double[][] doc) {
         this.currentDocument.clear();
         for (final double[] ds : doc) {
             this.currentDocument.add(new Bubble(ds[0], ds[1], ds[2]));
