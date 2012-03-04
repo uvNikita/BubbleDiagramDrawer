@@ -43,8 +43,7 @@ public class MainFrame extends JFrame {
         super("Bubble diagram drawer");
         final SessionManager sm = new SessionManager();
         final CSVProcessor cp = new CSVProcessor(" ");
-        cp.loadFromFile(new File("/tmp/1"));
-        sm.setCurrentDocument(cp.parse());
+        sm.setCurrentDocument(cp.read(new File("/tmp/1")));
         this.getContentPane().add(new BubblePanel(sm));
         this.setSize(new Dimension(420, 420));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
