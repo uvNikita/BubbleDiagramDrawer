@@ -3,13 +3,9 @@ package csv;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +16,7 @@ public class CSVProcessor {
     /**
      * Delimiter used to separate values in csv.
      */
-    private final String delimiter;
-    /**
-     * Container that aggregates values from csv file.
-     */
-    private List<String> rows = new ArrayList<String>();
+    private String delimiter;
 
     /**
      * @param delimeter
@@ -35,28 +27,11 @@ public class CSVProcessor {
     }
 
     /**
-     * Deserialize String List from file.
-     * @param file
-     *        File to get Object from.
-     * @throws IOException
-     *         if have problems with deserializing or reading to File.
-     * @throws ClassNotFoundException
-     *         when there is no such class to serialize.
+     * Get current value of delimiter.
+     * @return the delimiter
      */
-    public final void deserialize(final File file) throws IOException,
-            ClassNotFoundException {
-        final ObjectInputStream is = new ObjectInputStream(
-                new FileInputStream(file));
-        this.rows = (List<String>) is.readObject();
-        is.close();
-    }
-
-    /**
-     * Get current value of rows.
-     * @return the rows
-     */
-    public final List<String> getRows() {
-        return rows;
+    public final String getDelimiter() {
+        return delimiter;
     }
 
     /**
@@ -65,37 +40,32 @@ public class CSVProcessor {
      *        File to read lines from.
      * @throws IOException
      *         if have problems with File loading.
-     */
-    public final void loadFromFile(final File file) throws IOException {
-        final BufferedReader br = new BufferedReader(new FileReader(file));
-        while (br.ready()) {
-            this.rows.add(br.readLine());
-        }
-        br.close();
-    }
-
-    /**
-     * Parses csv values from container.
-     * @return Double[][] table contained parsed values.
      * @throws CSVParseException
      *         if something wrong with parse stage. For example length of rows
      *         doesn't match or not all of values are double.
+     * @return Double[][] table contained parsed values.
      */
-    public final double[][] parse() throws CSVParseException {
-        final int height = this.rows.size();
-        if (height == 0) {
-            return new double[0][0];
+    public final double[][] read(final File file) throws IOException,
+            CSVParseException {
+        final List<String> rows = new ArrayList<String>();
+        final BufferedReader br = new BufferedReader(new FileReader(file));
+        while (br.ready()) {
+            rows.add(br.readLine());
         }
-        final int width = this.rows.get(0).split(this.delimiter).length;
+        br.close();
+
+        final int height = rows.size();
+        if (height == 0)
+            return new double[0][0];
+        final int width = rows.get(0).split(this.delimiter).length;
         final double[][] table = new double[height][width];
         for (int i = 0; i < height; i++) {
-            final String[] row = this.rows.get(i).split(this.delimiter);
+            final String[] row = rows.get(i).split(this.delimiter);
             for (int j = 0; j < width; j++) {
 
-                if (row.length != width) {
+                if (row.length != width)
                     throw new CSVParseException(
                             "Length of rows doesn't match", i);
-                }
                 try {
                     table[i][j] = Double.parseDouble(row[j]);
                 } catch (final Exception e) {
@@ -104,7 +74,15 @@ public class CSVProcessor {
             }
         }
         return table;
+    }
 
+    /**
+     * Set new value of delimiter.
+     * @param delimiter
+     *        the delimiter to set
+     */
+    public final void setDelimiter(final String delimiter) {
+        this.delimiter = delimiter;
     }
 
     /**
@@ -114,35 +92,20 @@ public class CSVProcessor {
      * @throws IOException
      *         if have problems with saving to File.
      */
-    public final void saveToFile(final File file) throws IOException {
+    public final void write(final File file, final double[][] rows)
+            throws IOException {
         final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        for (final String row : this.rows) {
-            bw.write(row);
-            bw.newLine();
+        for (int i = 0; i < rows.length; i++) {
+            final double[] row = rows[i];
+            for (int j = 0; j < row.length; j++) {
+                final double d = row[j];
+                bw.write(d + ((j < row.length - 1) ? this.delimiter : ""));
+            }
+            if (i < rows.length - 1) {
+                bw.newLine();
+            }
         }
+
         bw.close();
-    }
-
-    /**
-     * Serialize String List of csv lines into file.
-     * @param file
-     *        File to serialize into.
-     * @throws IOException
-     *         if have problems with serializing or writhing to File.
-     */
-    public final void serialize(final File file) throws IOException {
-        final ObjectOutputStream os = new ObjectOutputStream(
-                new FileOutputStream(file));
-        os.writeObject(this.rows);
-        os.close();
-    }
-
-    /**
-     * Set new value of rows.
-     * @param rows
-     *        the rows to set
-     */
-    public final void setRows(final List<String> rows) {
-        this.rows = rows;
     }
 }
