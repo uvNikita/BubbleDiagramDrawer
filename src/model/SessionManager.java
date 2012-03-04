@@ -29,7 +29,20 @@ public class SessionManager implements DocumentHolder {
         for (final double[] ds : doc) {
             this.currentDocument.add(new Bubble(ds[0], ds[1], ds[2]));
         }
-        log.info(String.format("Current document: %s", this.currentDocument));
+        log.info(String.format("Current document: %s",
+                this.currentDocument));
+    }
+
+    public final double[][] getCurrentDocumentAsArray() {
+        double[][] doc = new double[this.currentDocument.size()][Bubble.NUMBER_OF_PROPERTIES];
+        int i = 0;
+        for (Bubble bubble : this.currentDocument) {
+            doc[i][0] = bubble.getX();
+            doc[i][1] = bubble.getY();
+            doc[i][2] = bubble.getRadius();
+            i++;
+        }
+        return doc;
     }
 
     /*

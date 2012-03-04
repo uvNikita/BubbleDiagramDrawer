@@ -6,6 +6,8 @@ import java.util.Comparator;
  * @author nikita
  */
 public class Bubble {
+    public static final int NUMBER_OF_PROPERTIES = 3;
+
     static class ComparatorByRadius implements Comparator<Bubble> {
 
         @Override
