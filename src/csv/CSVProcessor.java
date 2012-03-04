@@ -103,9 +103,7 @@ public class CSVProcessor {
                 final double d = row[j];
                 bw.write(d + ((j < row.length - 1) ? this.delimiter : ""));
             }
-            if (i < rows.length - 1) {
-                bw.newLine();
-            }
+            bw.newLine();
         }
 
         bw.close();
