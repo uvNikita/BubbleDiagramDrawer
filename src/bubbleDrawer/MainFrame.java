@@ -47,10 +47,7 @@ public class MainFrame extends JFrame {
                 try {
                     this.sessionManager.setCurrentDocument(csvProc
                             .read(file));
-                    this.frame.getContentPane().removeAll();
-                    this.frame.getContentPane().add(
-                            new BubblePanel(this.sessionManager));
-                    SwingUtilities.updateComponentTreeUI(this.frame);
+                    this.frame.repaint();
                 } catch (final CSVParseException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while parsing");
@@ -102,6 +99,8 @@ public class MainFrame extends JFrame {
         bar.add(file);
 
         this.sessionManager = new SessionManager();
+        this.getContentPane().add(
+                new BubblePanel(this.sessionManager));
         openItem.addActionListener(new OpenFileAction(this,
                 this.sessionManager));
 
