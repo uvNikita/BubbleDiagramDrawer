@@ -55,17 +55,19 @@ public class CSVProcessor {
         br.close();
 
         final int height = rows.size();
-        if (height == 0)
+        if (height == 0) {
             return new double[0][0];
+        }
         final int width = rows.get(0).split(this.delimiter).length;
         final double[][] table = new double[height][width];
         for (int i = 0; i < height; i++) {
             final String[] row = rows.get(i).split(this.delimiter);
             for (int j = 0; j < width; j++) {
 
-                if (row.length != width)
+                if (row.length != width) {
                     throw new CSVParseException(
                             "Length of rows doesn't match", i);
+                }
                 try {
                     table[i][j] = Double.parseDouble(row[j]);
                 } catch (final Exception e) {
