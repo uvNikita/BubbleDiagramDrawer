@@ -27,6 +27,9 @@ public class BubbleDrawer implements Drawer {
     public final void draw(final Graphics g) {
         final Graphics2D g2d = (Graphics2D) g;
         final List<Bubble> doc = holder.getCurrentDocument();
+        if (doc.isEmpty()) {
+            return;
+        }
         final List<Bubble> scaledDoc = new ArrayList<Bubble>();
         final Rectangle bound = new Rectangle();
         g2d.getClipBounds(bound);
