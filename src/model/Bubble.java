@@ -1,11 +1,63 @@
 package model;
 
+import java.util.Comparator;
+
 /**
  * @author nikita
  */
 public class Bubble {
+    static class ComparatorByRadius implements Comparator<Bubble> {
+
+        @Override
+        public int compare(final Bubble b1, final Bubble b2) {
+            if (b1.getRadius() < b2.getRadius())
+                return -1;
+            if (b1.getRadius() > b2.getRadius())
+                return 1;
+            return 0;
+        }
+    }
+
+    static class ComparatorByX implements Comparator<Bubble> {
+
+        @Override
+        public int compare(final Bubble b1, final Bubble b2) {
+            if (b1.getX() < b2.getX())
+                return -1;
+            if (b1.getX() > b2.getX())
+                return 1;
+            return 0;
+        }
+    }
+
+    static class ComparatorByY implements Comparator<Bubble> {
+
+        @Override
+        public int compare(final Bubble b1, final Bubble b2) {
+            if (b1.getY() < b2.getY())
+                return -1;
+            if (b1.getY() > b2.getY())
+                return 1;
+            return 0;
+        }
+    }
+
+    public static Comparator<Bubble> getComparatorByRadius() {
+        return new ComparatorByRadius();
+    }
+
+    public static Comparator<Bubble> getComparatorByX() {
+        return new ComparatorByX();
+    }
+
+    public static Comparator<Bubble> getComparatorByY() {
+        return new ComparatorByY();
+    }
+
     private double x;
+
     private double y;
+
     private double radius;
 
     /**
