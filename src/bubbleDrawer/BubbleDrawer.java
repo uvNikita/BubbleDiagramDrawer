@@ -11,6 +11,7 @@ import model.Bubble;
 import model.DocumentHolder;
 
 public class BubbleDrawer implements Drawer {
+    private static final int DEFAULT_MAX_RADIUS = 100;
     private final Logger log = Logger.getLogger(BubbleDrawer.class.getName());
     private final DocumentHolder holder;
 
@@ -24,8 +25,8 @@ public class BubbleDrawer implements Drawer {
         final List<Bubble> scaledDoc = new ArrayList<Bubble>();
         final Rectangle bound = new Rectangle();
         g.getClipBounds(bound);
-        final int maxHeight = bound.height;
-        final int maxWidth = bound.width;
+        final int maxHeight = bound.height - DEFAULT_MAX_RADIUS;
+        final int maxWidth = bound.width - DEFAULT_MAX_RADIUS;
         log.info(String.format("max height: %d", maxHeight));
         log.info(String.format("max width: %d", maxWidth));
         final double maxX = Collections.max(doc, Bubble.getComparatorByX())
@@ -37,7 +38,7 @@ public class BubbleDrawer implements Drawer {
         for (final Bubble bubble : doc) {
             scaledDoc.add(new Bubble(bubble.getX() / maxX * maxWidth, bubble
                     .getY() / maxY * maxHeight, bubble.getRadius() / maxRadius
-                    * 100));
+                    * DEFAULT_MAX_RADIUS));
         }
         log.info(String.format("Scaled doc: %s", scaledDoc));
         log.info(String.format("Current doc", doc));
