@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -10,15 +12,20 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-import bubbleDrawer.BubblePanel;
-
+import model.BubbleTableModel;
 import model.SessionManager;
+import bubbleDrawer.BubblePanel;
 import csv.CSVParseException;
 
 public class MainFrame extends JFrame {
     private final SessionManager sessionManager;
+    private int defaultWidth = 1024;
+    private int defaultHeight = 768;
+
+    private BubblePanel bubblePanel;
 
     /**
      * 
@@ -48,11 +55,20 @@ public class MainFrame extends JFrame {
         super("Bubble diagram drawer");
 
         this.sessionManager = new SessionManager();
-        this.getContentPane().add(new BubblePanel(this.sessionManager));
+        this.bubblePanel = new BubblePanel(this.sessionManager);
 
+        JTable table = new JTable(
+                new BubbleTableModel(this.sessionManager));
+        Dimension d = table.getPreferredSize();
+        d.width = 150;
+        table.setPreferredScrollableViewportSize(d);
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(new JScrollPane(table),
+                BorderLayout.WEST);
+        this.getContentPane().add(bubblePanel);
         this.createMenu();
 
-        this.setSize(new Dimension(420, 420));
+        this.setSize(new Dimension(this.defaultWidth, this.defaultHeight));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -61,16 +77,22 @@ public class MainFrame extends JFrame {
         file.setMnemonic('F');
 
         final JMenuItem openItem = new JMenuItem("Open");
-        openItem.setMnemonic('O');
+        openItem.setMnemonic('o');
         file.add(openItem);
         openItem.addActionListener(new OpenFileAction(this,
                 this.sessionManager));
 
         JMenuItem saveAsItem = new JMenuItem("Save as...");
-        saveAsItem.setMnemonic('o');
+        saveAsItem.setMnemonic('s');
         file.add(saveAsItem);
         saveAsItem.addActionListener(new SaveFileAsAction(this,
                 this.sessionManager));
+
+        JMenuItem exportItem = new JMenuItem("Export...");
+        exportItem.setMnemonic('e');
+        file.add(exportItem);
+        exportItem.addActionListener(new ExportAction(this,
+                this.bubblePanel));
 
         final JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
