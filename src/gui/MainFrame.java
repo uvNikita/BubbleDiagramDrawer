@@ -20,6 +20,8 @@ import csv.CSVParseException;
 public class MainFrame extends JFrame {
     private final SessionManager sessionManager;
 
+    private BubblePanel bubblePanel;
+
     /**
      * 
      */
@@ -48,7 +50,8 @@ public class MainFrame extends JFrame {
         super("Bubble diagram drawer");
 
         this.sessionManager = new SessionManager();
-        this.getContentPane().add(new BubblePanel(this.sessionManager));
+        this.bubblePanel = new BubblePanel(this.sessionManager);
+        this.getContentPane().add(bubblePanel);
 
         this.createMenu();
 
@@ -61,16 +64,22 @@ public class MainFrame extends JFrame {
         file.setMnemonic('F');
 
         final JMenuItem openItem = new JMenuItem("Open");
-        openItem.setMnemonic('O');
+        openItem.setMnemonic('o');
         file.add(openItem);
         openItem.addActionListener(new OpenFileAction(this,
                 this.sessionManager));
 
         JMenuItem saveAsItem = new JMenuItem("Save as...");
-        saveAsItem.setMnemonic('o');
+        saveAsItem.setMnemonic('s');
         file.add(saveAsItem);
         saveAsItem.addActionListener(new SaveFileAsAction(this,
                 this.sessionManager));
+
+        JMenuItem exportItem = new JMenuItem("Export...");
+        exportItem.setMnemonic('e');
+        file.add(exportItem);
+        exportItem.addActionListener(new ExportAction(this,
+                this.bubblePanel));
 
         final JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
