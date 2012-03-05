@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -10,15 +12,18 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
-import bubbleDrawer.BubblePanel;
-
+import model.BubbleTableModel;
 import model.SessionManager;
+import bubbleDrawer.BubblePanel;
 import csv.CSVParseException;
 
 public class MainFrame extends JFrame {
     private final SessionManager sessionManager;
+    private int defaultWidth = 1024;
+    private int defaultHeight = 768;
 
     private BubblePanel bubblePanel;
 
@@ -51,11 +56,19 @@ public class MainFrame extends JFrame {
 
         this.sessionManager = new SessionManager();
         this.bubblePanel = new BubblePanel(this.sessionManager);
-        this.getContentPane().add(bubblePanel);
 
+        JTable table = new JTable(
+                new BubbleTableModel(this.sessionManager));
+        Dimension d = table.getPreferredSize();
+        d.width = 150;
+        table.setPreferredScrollableViewportSize(d);
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(new JScrollPane(table),
+                BorderLayout.WEST);
+        this.getContentPane().add(bubblePanel);
         this.createMenu();
 
-        this.setSize(new Dimension(420, 420));
+        this.setSize(new Dimension(this.defaultWidth, this.defaultHeight));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

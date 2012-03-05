@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import model.SessionManager;
 import csv.CSVParseException;
@@ -45,7 +46,7 @@ class OpenFileAction extends AbstractAction {
             final CSVProcessor csvProc = new CSVProcessor(" ");
             try {
                 this.sessionManager.setCurrentDocumentAsArray(csvProc.read(file));
-                this.frame.repaint();
+                SwingUtilities.updateComponentTreeUI(this.frame);
             } catch (final CSVParseException e1) {
                 JOptionPane.showMessageDialog(this.frame,
                         "Error while parsing");
