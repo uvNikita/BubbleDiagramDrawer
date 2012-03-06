@@ -49,6 +49,7 @@ public class CreateAction extends AbstractAction {
     @Override
     public final void actionPerformed(final ActionEvent e) {
         this.holder.setCurrentDocument(new ArrayList<Bubble>());
+        this.holder.setWasChanged(false);
         SwingUtilities.updateComponentTreeUI(this.frame);
     }
 
