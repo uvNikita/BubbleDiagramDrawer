@@ -1,17 +1,20 @@
-/**
- * 
- */
 package model;
 
 import javax.swing.table.AbstractTableModel;
 
 /**
- * @author nikita
+ * @author Nikita Uvarov 
+ * Table model to represent bubble diagram data.
  */
 public class BubbleTableModel extends AbstractTableModel {
+    /**
+     * Generated serialVersionUID.
+     */
+    private static final long serialVersionUID = 2511445944820000327L;
     private DocumentHolder holder;
 
     /**
+     * Create BubbleTableModel using specified data hollder.
      * @param holder
      */
     public BubbleTableModel(final DocumentHolder holder) {
@@ -41,8 +44,7 @@ public class BubbleTableModel extends AbstractTableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     @Override
-    public final Object getValueAt(final int rowIndex,
-            final int columnIndex) {
+    public final Object getValueAt(final int rowIndex, final int columnIndex) {
         Bubble bubble = holder.getCurrentDocument().get(rowIndex);
         switch (columnIndex) {
         case 0:

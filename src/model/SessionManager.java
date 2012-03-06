@@ -5,12 +5,22 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * @author nikita
+ * @author Nikita Uvarov 
+ * Class can manage data of bubble diagram.
  */
 public class SessionManager implements DocumentHolder {
+    /**
+     * Logger to use for debug.
+     */
     private Logger log = Logger.getLogger(SessionManager.class.getName());
+    /**
+     * Current document represented like List.
+     */
     private List<Bubble> currentDocument;
 
+    /**
+     * Create and initialize {@link SessionManager}.
+     */
     public SessionManager() {
         this.currentDocument = new ArrayList<Bubble>();
     }
@@ -24,15 +34,23 @@ public class SessionManager implements DocumentHolder {
         return this.currentDocument;
     }
 
+    /**
+     * Set current document using data from array.
+     * @param doc
+     *        Table to use data from.
+     */
     public final void setCurrentDocumentAsArray(final double[][] doc) {
         this.currentDocument.clear();
         for (final double[] ds : doc) {
             this.currentDocument.add(new Bubble(ds[0], ds[1], ds[2]));
         }
-        log.info(String.format("Current document: %s",
-                this.currentDocument));
+        log.info(String.format("Current document: %s", this.currentDocument));
     }
 
+    /**
+     * Get current document represented by array.
+     * @return Table containing all document data.
+     */
     public final double[][] getCurrentDocumentAsArray() {
         double[][] doc = new double[this.currentDocument.size()][Bubble.NUMBER_OF_PROPERTIES];
         int i = 0;
