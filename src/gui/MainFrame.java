@@ -2,9 +2,6 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.HeadlessException;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +11,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -22,7 +18,6 @@ import model.BubbleTableModel;
 import model.DocumentHolder;
 import model.SessionManager;
 import bubbleDrawer.BubblePanel;
-import csv.CSVParseException;
 
 /**
  * @author Nikita Uvarov 
@@ -92,8 +87,8 @@ public class MainFrame extends JFrame implements TableModelListener {
         this.createMenu();
 
         this
-                .setSize(new Dimension(this.DEFAULT_WIDTH,
-                        this.DEFAULT_HEIGHT));
+                .setSize(new Dimension(MainFrame.DEFAULT_WIDTH,
+                        MainFrame.DEFAULT_HEIGHT));
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new CloseAction(this, this.sessionManager));
     }
@@ -101,7 +96,7 @@ public class MainFrame extends JFrame implements TableModelListener {
     /**
      * Create menu of MainFrame.
      */
-    protected void createMenu() {
+    protected final void createMenu() {
         final JMenu file = new JMenu("File");
         file.setMnemonic('F');
 
@@ -111,6 +106,12 @@ public class MainFrame extends JFrame implements TableModelListener {
         openItem.addActionListener(new OpenFileAction(this,
                 this.sessionManager));
 
+        final JMenuItem createItem = new JMenuItem("Create");
+        createItem.setMnemonic('c');
+        file.add(createItem);
+        createItem.addActionListener(new CreateAction(this,
+                this.sessionManager));
+        
         JMenuItem saveAsItem = new JMenuItem("Save as...");
         saveAsItem.setMnemonic('s');
         file.add(saveAsItem);
