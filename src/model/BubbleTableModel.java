@@ -1,5 +1,8 @@
 package model;
 
+import java.util.List;
+
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -44,7 +47,8 @@ public class BubbleTableModel extends AbstractTableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     @Override
-    public final Object getValueAt(final int rowIndex, final int columnIndex) {
+    public final Object getValueAt(final int rowIndex,
+            final int columnIndex) {
         Bubble bubble = holder.getCurrentDocument().get(rowIndex);
         switch (columnIndex) {
         case 0:
@@ -75,4 +79,50 @@ public class BubbleTableModel extends AbstractTableModel {
             throw new IllegalArgumentException("Too many columns");
         }
     }
+
+    /*
+     * (non-Javadoc)
+     * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
+     */
+    @Override
+    public final boolean isCellEditable(final int row, final int col) {
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object,
+     * int, int)
+     */
+    @Override
+    public final void setValueAt(final Object aValue, final int rowIndex,
+            final int columnIndex) {
+        Bubble bubble = holder.getCurrentDocument().get(rowIndex);
+        double dValue = Double.parseDouble((String) aValue);
+        switch (columnIndex) {
+        case 0:
+            bubble.setX(dValue);
+            break;
+        case 1:
+            bubble.setY(dValue);
+            break;
+        case 2:
+            bubble.setRadius(dValue);
+            break;
+        default:
+            throw new IllegalArgumentException("Too many columns");
+        }
+        this.fireTableChanged(new TableModelEvent(this));
+    }
+
+    /**
+     * Add row.
+     * @param after
+     *        an index of row after which new must be added.
+     */
+    public final void addRow(final int after) {
+        holder.getCurrentDocument().add(after + 1, new Bubble(0, 0, 0));
+        this.fireTableStructureChanged();
+    }
+
 }

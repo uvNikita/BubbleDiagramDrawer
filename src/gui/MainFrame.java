@@ -14,6 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import model.BubbleTableModel;
 import model.SessionManager;
@@ -24,7 +27,11 @@ import csv.CSVParseException;
  * @author Nikita Uvarov 
  * Main window to work with bubble diagram.
  */
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements TableModelListener {
+    /**
+     * Table containing all bubble diagram data.
+     */
+    private JTable table;
     /**
      * Current manager of data.
      */
@@ -32,11 +39,11 @@ public class MainFrame extends JFrame {
     /**
      * Default window width.
      */
-    private int defaultWidth = 1024;
+    private static final int DEFAULT_WIDTH = 1024;
     /**
      * Default window height.
      */
-    private int defaultHeight = 768;
+    private static final int DEFAULT_HEIGHT = 768;
     /**
      * Panel to draw diagram on.
      */
@@ -68,16 +75,24 @@ public class MainFrame extends JFrame {
         this.sessionManager = new SessionManager();
         this.bubblePanel = new BubblePanel(this.sessionManager);
 
-        JTable table = new JTable(new BubbleTableModel(this.sessionManager));
+        BubbleTableModel tableModel = new BubbleTableModel(
+                this.sessionManager);
+
+        this.table = new JTable(tableModel);
         Dimension d = table.getPreferredSize();
         d.width = 150;
         table.setPreferredScrollableViewportSize(d);
+        tableModel.addTableModelListener(this);
+
         this.getContentPane().setLayout(new BorderLayout());
-        this.getContentPane().add(new JScrollPane(table), BorderLayout.WEST);
+        this.getContentPane().add(new JScrollPane(table),
+                BorderLayout.WEST);
         this.getContentPane().add(bubblePanel);
         this.createMenu();
 
-        this.setSize(new Dimension(this.defaultWidth, this.defaultHeight));
+        this
+                .setSize(new Dimension(this.DEFAULT_WIDTH,
+                        this.DEFAULT_HEIGHT));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -91,7 +106,8 @@ public class MainFrame extends JFrame {
         final JMenuItem openItem = new JMenuItem("Open");
         openItem.setMnemonic('o');
         file.add(openItem);
-        openItem.addActionListener(new OpenFileAction(this, this.sessionManager));
+        openItem.addActionListener(new OpenFileAction(this,
+                this.sessionManager));
 
         JMenuItem saveAsItem = new JMenuItem("Save as...");
         saveAsItem.setMnemonic('s');
@@ -102,11 +118,30 @@ public class MainFrame extends JFrame {
         JMenuItem exportItem = new JMenuItem("Export...");
         exportItem.setMnemonic('e');
         file.add(exportItem);
-        exportItem.addActionListener(new ExportAction(this, this.bubblePanel));
+        exportItem.addActionListener(new ExportAction(this,
+                this.bubblePanel));
+
+        final JMenu edit = new JMenu("Edit");
+        file.setMnemonic('E');
+
+        JMenuItem addRowItem = new JMenuItem("Add row");
+        addRowItem.setMnemonic('a');
+        edit.add(addRowItem);
+        addRowItem.addActionListener(new AddRowAction(this.table));
 
         final JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
         bar.add(file);
+        bar.add(edit);
     }
 
+    /*
+     * (non-Javadoc)
+     * @seejavax.swing.event.TableModelListener#tableChanged(javax.swing.event.
+     * TableModelEvent)
+     */
+    @Override
+    public final void tableChanged(final TableModelEvent e) {
+        this.repaint();
+    }
 }
