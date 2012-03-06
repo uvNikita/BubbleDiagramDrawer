@@ -31,7 +31,7 @@ public class CSVProcessor {
      * @return the delimiter
      */
     public final String getDelimiter() {
-        return delimiter;
+        return this.delimiter;
     }
 
     /**
@@ -65,8 +65,8 @@ public class CSVProcessor {
             for (int j = 0; j < width; j++) {
 
                 if (row.length != width) {
-                    throw new CSVParseException("Length of rows doesn't match",
-                            i);
+                    throw new CSVParseException(
+                            "Length of rows doesn't match", i);
                 }
                 try {
                     table[i][j] = Double.parseDouble(row[j]);

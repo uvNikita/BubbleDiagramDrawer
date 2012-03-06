@@ -11,8 +11,7 @@ import model.Bubble;
 import model.DocumentHolder;
 
 /**
- * @author Nikita Uvarov
- * Ation to create new document.
+ * @author Nikita Uvarov Action to create new document.
  */
 public class CreateAction extends AbstractAction {
 
@@ -23,11 +22,11 @@ public class CreateAction extends AbstractAction {
     /**
      * Parent frame.
      */
-    private JFrame frame;
+    private final JFrame frame;
     /**
      * Holder to create data in.
      */
-    private DocumentHolder holder;
+    private final DocumentHolder holder;
 
     /**
      * Creates CreateAction using specified parent frame and data holder.

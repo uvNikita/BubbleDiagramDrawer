@@ -1,6 +1,3 @@
-/**
- * 
- */
 package gui;
 
 import java.awt.event.WindowAdapter;
@@ -12,18 +9,30 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import csv.CSVProcessor;
-
 import model.DocumentHolder;
+import csv.CSVProcessor;
 
 /**
  * @author nikita
  */
 public class CloseAction extends WindowAdapter {
-    private JFrame frame;
-    private DocumentHolder holder;
+    /**
+     * Parent frame.
+     */
+    private final JFrame frame;
+    /**
+     * Document container to watch changes in.
+     */
+    private final DocumentHolder holder;
 
-    public CloseAction(JFrame frame, DocumentHolder holder) {
+    /**
+     * Creates CloseAction using specified parent frame and data holder.
+     * @param frame
+     *        Parent frame.
+     * @param holder
+     *        Container of data to check changes in.
+     */
+    public CloseAction(final JFrame frame, final DocumentHolder holder) {
         this.frame = frame;
         this.holder = holder;
     }
@@ -35,7 +44,7 @@ public class CloseAction extends WindowAdapter {
      */
     @Override
     public final void windowClosing(final WindowEvent e) {
-        if (!holder.wasChanged()) {
+        if (!this.holder.wasChanged()) {
             System.exit(0);
         }
         int react = JOptionPane.showConfirmDialog(this.frame,
@@ -49,16 +58,17 @@ public class CloseAction extends WindowAdapter {
         }
         final JFileChooser chooser = new JFileChooser(".");
         while (true) {
-            final int returnVal = chooser.showSaveDialog(frame);
+            final int returnVal = chooser.showSaveDialog(this.frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile();
                 if (file.exists()) {
                     react = JOptionPane
                             .showConfirmDialog(
                                     this.frame,
-                                    String.format(
-                                            "The file '%s' already exists. Do you want to overwrite it?",
-                                            file.getAbsolutePath()));
+                                    String
+                                            .format(
+                                                    "The file '%s' already exists. Do you want to overwrite it?",
+                                                    file.getAbsolutePath()));
                     if (react == JOptionPane.CANCEL_OPTION) {
                         return;
                     } else if (react == JOptionPane.NO_OPTION) {
@@ -70,7 +80,7 @@ public class CloseAction extends WindowAdapter {
                     csvProc.write(file, this.holder
                             .getCurrentDocumentAsArray());
                     System.exit(0);
-                } catch (IOException e1) {
+                } catch (final IOException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while accessing file.");
                 }

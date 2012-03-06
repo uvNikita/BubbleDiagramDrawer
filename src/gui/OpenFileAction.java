@@ -18,8 +18,7 @@ import csv.CSVParseException;
 import csv.CSVProcessor;
 
 /**
- * @author Nikita Uvarov
- * Action to open csv files.
+ * @author Nikita Uvarov Action to open csv files.
  */
 class OpenFileAction extends AbstractAction {
     /**
@@ -57,7 +56,7 @@ class OpenFileAction extends AbstractAction {
     @Override
     public void actionPerformed(final ActionEvent e) {
         final JFileChooser chooser = new JFileChooser(".");
-        final int returnVal = chooser.showOpenDialog(frame);
+        final int returnVal = chooser.showOpenDialog(this.frame);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File file = chooser.getSelectedFile();
             final CSVProcessor csvProc = new CSVProcessor(" ");
@@ -66,8 +65,8 @@ class OpenFileAction extends AbstractAction {
                         .read(file));
                 SwingUtilities.updateComponentTreeUI(this.frame);
             } catch (final CSVParseException e1) {
-                JOptionPane
-                        .showMessageDialog(this.frame, "Error while parsing");
+                JOptionPane.showMessageDialog(this.frame,
+                        "Error while parsing");
             } catch (final IOException e1) {
                 JOptionPane.showMessageDialog(this.frame,
                         "Error while accessing file.");

@@ -19,8 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import bubbleDrawer.BubblePanel;
 
 /**
- * @author Nikita Uvarov 
- * Action to save data as image.
+ * @author Nikita Uvarov Action to save data as image.
  */
 public class ExportAction extends AbstractAction {
     /**
@@ -30,11 +29,11 @@ public class ExportAction extends AbstractAction {
     /**
      * Parent frame.
      */
-    private JFrame frame;
+    private final JFrame frame;
     /**
      * Panel containing data to export image from.
      */
-    private BubblePanel panel;
+    private final BubblePanel panel;
 
     /**
      * Creates ExportAction using specified parent frame and panel container.
@@ -43,7 +42,7 @@ public class ExportAction extends AbstractAction {
      * @param panel
      *        Container of data to export.
      */
-    public ExportAction(JFrame frame, BubblePanel panel) {
+    public ExportAction(final JFrame frame, final BubblePanel panel) {
         this.frame = frame;
         this.panel = panel;
     }
@@ -56,30 +55,31 @@ public class ExportAction extends AbstractAction {
     @Override
     public void actionPerformed(final ActionEvent e) {
         final JFileChooser chooser = new JFileChooser(".");
-        FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter("JPEG",
-                "jpeg", "jpg");
+        final FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter(
+                "JPEG", "jpeg", "jpg");
         chooser.setFileFilter(jpgFilter);
         while (true) {
             final int returnVal = chooser.showSaveDialog(this.frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile();
                 if (file.exists()) {
-                    int react = JOptionPane
+                    final int react = JOptionPane
                             .showConfirmDialog(
                                     this.frame,
-                                    String.format(
-                                            "The file '%s' already exists. Do you want to overwrite it?",
-                                            file.getAbsolutePath()));
+                                    String
+                                            .format(
+                                                    "The file '%s' already exists. Do you want to overwrite it?",
+                                                    file.getAbsolutePath()));
                     if (react == JOptionPane.CANCEL_OPTION) {
                         return;
                     } else if (react == JOptionPane.NO_OPTION) {
                         continue;
                     }
                 }
-                Image img = this.panel.getImage();
+                final Image img = this.panel.getImage();
                 try {
                     ImageIO.write((BufferedImage) img, "jpg", file);
-                } catch (IOException e1) {
+                } catch (final IOException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while accessing file.");
                 }

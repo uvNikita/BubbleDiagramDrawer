@@ -3,18 +3,11 @@ package model;
 import java.util.Comparator;
 
 /**
- * @author Nikita Uvarov 
- * Class represents Bubble unit of bubble diagram.
+ * @author Nikita Uvarov Class represents Bubble unit of bubble diagram.
  */
 public class Bubble {
     /**
-     * Number of Bubble properties.
-     */
-    public static final int NUMBER_OF_PROPERTIES = 3;
-
-    /**
-     * @author Nikita Uvarov
-     * Class using to compare Bubble by value of Radius.
+     * @author Nikita Uvarov Class using to compare Bubble by value of Radius.
      */
     private static class ComparatorByRadius implements Comparator<Bubble> {
 
@@ -24,17 +17,19 @@ public class Bubble {
          */
         @Override
         public int compare(final Bubble b1, final Bubble b2) {
-            if (b1.getRadius() < b2.getRadius())
+            if (b1.getRadius() < b2.getRadius()) {
                 return -1;
-            if (b1.getRadius() > b2.getRadius())
+            }
+            if (b1.getRadius() > b2.getRadius()) {
                 return 1;
+            }
             return 0;
         }
     }
 
     /**
-     * @author Nikita Uvarov
-     * Class using to compare Bubble by value of X coordinate.
+     * @author Nikita Uvarov Class using to compare Bubble by value of X
+     *         coordinate.
      */
     private static class ComparatorByX implements Comparator<Bubble> {
 
@@ -44,17 +39,19 @@ public class Bubble {
          */
         @Override
         public int compare(final Bubble b1, final Bubble b2) {
-            if (b1.getX() < b2.getX())
+            if (b1.getX() < b2.getX()) {
                 return -1;
-            if (b1.getX() > b2.getX())
+            }
+            if (b1.getX() > b2.getX()) {
                 return 1;
+            }
             return 0;
         }
     }
 
     /**
-     * @author Nikita Uvarov
-     * Class using to compare Bubble by value of Y coordinate.
+     * @author Nikita Uvarov Class using to compare Bubble by value of Y
+     *         coordinate.
      */
     private static class ComparatorByY implements Comparator<Bubble> {
 
@@ -64,13 +61,20 @@ public class Bubble {
          */
         @Override
         public int compare(final Bubble b1, final Bubble b2) {
-            if (b1.getY() < b2.getY())
+            if (b1.getY() < b2.getY()) {
                 return -1;
-            if (b1.getY() > b2.getY())
+            }
+            if (b1.getY() > b2.getY()) {
                 return 1;
+            }
             return 0;
         }
     }
+
+    /**
+     * Number of Bubble properties.
+     */
+    public static final int NUMBER_OF_PROPERTIES = 3;
 
     /**
      * Get Bubble Comparator by Radius values.
@@ -97,18 +101,18 @@ public class Bubble {
     }
 
     /**
+     * Radius of Bubble
+     */
+    private double radius;
+    /**
      * X coordinate value of Bubble.
      */
     private double x;
+
     /**
      * Y coordinate value of Bubble.
      */
     private double y;
-
-    /**
-     * Radius of Bubble
-     */
-    private double radius;
 
     /**
      * Create Bubble using specified coordinates and radius.
@@ -130,7 +134,7 @@ public class Bubble {
      * @return the radius
      */
     public final double getRadius() {
-        return radius;
+        return this.radius;
     }
 
     /**
@@ -138,7 +142,7 @@ public class Bubble {
      * @return the x
      */
     public final double getX() {
-        return x;
+        return this.x;
     }
 
     /**
@@ -146,7 +150,7 @@ public class Bubble {
      * @return the y
      */
     public final double getY() {
-        return y;
+        return this.y;
     }
 
     /**
@@ -182,7 +186,8 @@ public class Bubble {
      */
     @Override
     public String toString() {
-        return String.format("Bubble(%f, %f, %f)", x, y, radius);
+        return String.format("Bubble(%f, %f, %f)", this.x, this.y,
+                this.radius);
     }
 
 }

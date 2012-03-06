@@ -3,11 +3,15 @@ package csv;
 import java.text.ParseException;
 
 /**
- * @author nikita
- * CSV file parse exception. Raises when something going wrong on
+ * @author nikita CSV file parse exception. Raises when something going wrong on
  *         parse phase.
  */
 public class CSVParseException extends ParseException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8230015198508419956L;
 
     /**
      * Constructs a CSVException with the specified detail message and offset. A

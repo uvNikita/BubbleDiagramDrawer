@@ -11,12 +11,19 @@ import model.BubbleTableModel;
  * @author Nikita Uvarov
  */
 public class DelRowAction extends AbstractAction {
-    private JTable table;
+    /**
+     * Generated serialVersionUID.
+     */
+    private static final long serialVersionUID = -8057615610942019718L;
+    /**
+     * Table to delete row from.
+     */
+    private final JTable table;
 
     /**
      * Create and initialize DelRowAction using given table.
      * @param table
-     *        Table to add row in.
+     *        Table to delete row from.
      */
     public DelRowAction(final JTable table) {
         this.table = table;
@@ -28,9 +35,10 @@ public class DelRowAction extends AbstractAction {
      * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
-        BubbleTableModel model = (BubbleTableModel) table.getModel();
-        int selectedIndex = this.table.getSelectedRow();
+    public final void actionPerformed(final ActionEvent e) {
+        final BubbleTableModel model = (BubbleTableModel) this.table
+                .getModel();
+        final int selectedIndex = this.table.getSelectedRow();
         if (selectedIndex == -1) {
             return;
         }

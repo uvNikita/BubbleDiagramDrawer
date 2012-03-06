@@ -19,7 +19,7 @@ public class AddRowAction extends AbstractAction {
      * Generated serialVersionUID.
      */
     private static final long serialVersionUID = 2753855479405231035L;
-    private JTable table;
+    private final JTable table;
 
     /**
      * Create and initialize AddRowAction using given table.
@@ -37,10 +37,11 @@ public class AddRowAction extends AbstractAction {
      */
     @Override
     public void actionPerformed(final ActionEvent e) {
-        BubbleTableModel model = (BubbleTableModel) table.getModel();
+        final BubbleTableModel model = (BubbleTableModel) this.table
+                .getModel();
         int selectedIndex = this.table.getSelectedRow();
-        if(selectedIndex == -1) {
-            selectedIndex = table.getRowCount() - 1;
+        if (selectedIndex == -1) {
+            selectedIndex = this.table.getRowCount() - 1;
         }
         model.addRow(selectedIndex);
     }

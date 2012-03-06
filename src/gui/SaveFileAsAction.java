@@ -12,13 +12,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import model.DocumentHolder;
 import csv.CSVProcessor;
 
-import model.DocumentHolder;
-
 /**
- * @author Nikita Uvarov 
- * Action to save file as csv.
+ * @author Nikita Uvarov Action to save file as csv.
  */
 public class SaveFileAsAction extends AbstractAction {
     /**
@@ -26,13 +24,13 @@ public class SaveFileAsAction extends AbstractAction {
      */
     private static final long serialVersionUID = 3369141372489805599L;
     /**
-     * Holder of data to save.
-     */
-    DocumentHolder sessionManager;
-    /**
      * Parent frame.
      */
     JFrame frame;
+    /**
+     * Holder of data to save.
+     */
+    DocumentHolder sessionManager;
 
     /**
      * Create SaveFileAsAction using specified parent frame and data holder.
@@ -41,7 +39,8 @@ public class SaveFileAsAction extends AbstractAction {
      * @param sessionManager
      *        Holder of data to save.
      */
-    public SaveFileAsAction(JFrame frame, DocumentHolder sessionManager) {
+    public SaveFileAsAction(final JFrame frame,
+            final DocumentHolder sessionManager) {
         this.frame = frame;
         this.sessionManager = sessionManager;
     }
@@ -55,16 +54,17 @@ public class SaveFileAsAction extends AbstractAction {
     public final void actionPerformed(final ActionEvent e) {
         final JFileChooser chooser = new JFileChooser(".");
         while (true) {
-            final int returnVal = chooser.showSaveDialog(frame);
+            final int returnVal = chooser.showSaveDialog(this.frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile();
                 if (file.exists()) {
-                    int react = JOptionPane
+                    final int react = JOptionPane
                             .showConfirmDialog(
                                     this.frame,
-                                    String.format(
-                                            "The file '%s' already exists. Do you want to overwrite it?",
-                                            file.getAbsolutePath()));
+                                    String
+                                            .format(
+                                                    "The file '%s' already exists. Do you want to overwrite it?",
+                                                    file.getAbsolutePath()));
                     if (react == JOptionPane.CANCEL_OPTION) {
                         return;
                     } else if (react == JOptionPane.NO_OPTION) {
@@ -73,9 +73,9 @@ public class SaveFileAsAction extends AbstractAction {
                 }
                 final CSVProcessor csvProc = new CSVProcessor(" ");
                 try {
-                    csvProc.write(file, sessionManager
+                    csvProc.write(file, this.sessionManager
                             .getCurrentDocumentAsArray());
-                } catch (IOException e1) {
+                } catch (final IOException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while accessing file.");
                 }
