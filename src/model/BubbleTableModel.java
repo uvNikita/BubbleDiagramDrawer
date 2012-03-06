@@ -112,6 +112,7 @@ public class BubbleTableModel extends AbstractTableModel {
         default:
             throw new IllegalArgumentException("Too many columns");
         }
+        holder.setWasChanged(true);
         this.fireTableChanged(new TableModelEvent(this));
     }
 
@@ -122,6 +123,7 @@ public class BubbleTableModel extends AbstractTableModel {
      */
     public final void addRow(final int after) {
         holder.getCurrentDocument().add(after + 1, new Bubble(0, 0, 0));
+        holder.setWasChanged(true);
         this.fireTableStructureChanged();
     }
 
@@ -131,6 +133,7 @@ public class BubbleTableModel extends AbstractTableModel {
      */
     public final void delRow(final int index) {
         holder.getCurrentDocument().remove(index);
+        holder.setWasChanged(true);
         fireTableStructureChanged();
     }
 }

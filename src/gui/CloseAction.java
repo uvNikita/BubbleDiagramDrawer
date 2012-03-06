@@ -3,11 +3,11 @@
  */
 package gui;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,49 +17,43 @@ import csv.CSVProcessor;
 import model.DocumentHolder;
 
 /**
- * @author Nikita Uvarov 
- * Action to save file as csv.
+ * @author nikita
  */
-public class SaveFileAsAction extends AbstractAction {
-    /**
-     * Generated serialVersionUID.
-     */
-    private static final long serialVersionUID = 3369141372489805599L;
-    /**
-     * Holder of data to save.
-     */
-    DocumentHolder sessionManager;
-    /**
-     * Parent frame.
-     */
-    JFrame frame;
+public class CloseAction extends WindowAdapter {
+    private JFrame frame;
+    private DocumentHolder holder;
 
-    /**
-     * Create SaveFileAsAction using specified parent frame and data holder.
-     * @param frame
-     *        Parent frame.
-     * @param sessionManager
-     *        Holder of data to save.
-     */
-    public SaveFileAsAction(JFrame frame, DocumentHolder sessionManager) {
+    public CloseAction(JFrame frame, DocumentHolder holder) {
         this.frame = frame;
-        this.sessionManager = sessionManager;
+        this.holder = holder;
     }
 
     /*
      * (non-Javadoc)
      * @see
-     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     * java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
      */
     @Override
-    public final void actionPerformed(final ActionEvent e) {
+    public final void windowClosing(final WindowEvent e) {
+        if (!holder.wasChanged()) {
+            System.exit(0);
+        }
+        int react = JOptionPane.showConfirmDialog(this.frame,
+                "The diagramhas not been saved. Save changes now?",
+                "Closing diagram without saving",
+                JOptionPane.YES_NO_CANCEL_OPTION);
+        if (react == JOptionPane.CANCEL_OPTION) {
+            return;
+        } else if (react == JOptionPane.NO_OPTION) {
+            System.exit(0);
+        }
         final JFileChooser chooser = new JFileChooser(".");
         while (true) {
             final int returnVal = chooser.showSaveDialog(frame);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 final File file = chooser.getSelectedFile();
                 if (file.exists()) {
-                    int react = JOptionPane
+                    react = JOptionPane
                             .showConfirmDialog(
                                     this.frame,
                                     String.format(
@@ -73,8 +67,9 @@ public class SaveFileAsAction extends AbstractAction {
                 }
                 final CSVProcessor csvProc = new CSVProcessor(" ");
                 try {
-                    csvProc.write(file, sessionManager
+                    csvProc.write(file, this.holder
                             .getCurrentDocumentAsArray());
+                    System.exit(0);
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while accessing file.");
@@ -83,5 +78,4 @@ public class SaveFileAsAction extends AbstractAction {
             return;
         }
     }
-
 }

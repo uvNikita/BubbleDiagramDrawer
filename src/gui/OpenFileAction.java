@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import model.SessionManager;
+import model.DocumentHolder;
 import csv.CSVParseException;
 import csv.CSVProcessor;
 
@@ -33,7 +33,7 @@ class OpenFileAction extends AbstractAction {
     /**
      * Manager to fill data in.
      */
-    private final SessionManager sessionManager;
+    private final DocumentHolder sessionManager;
 
     /**
      * Creates OpenFileAction using specified parent frame and data holder.
@@ -43,7 +43,7 @@ class OpenFileAction extends AbstractAction {
      *        Container of data to fill in.
      */
     public OpenFileAction(final JFrame frame,
-            final SessionManager sessionManager) {
+            final DocumentHolder sessionManager) {
         super("Open...");
         this.frame = frame;
         this.sessionManager = sessionManager;

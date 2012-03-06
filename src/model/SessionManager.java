@@ -10,6 +10,27 @@ import java.util.logging.Logger;
  */
 public class SessionManager implements DocumentHolder {
     /**
+     * Flag determines whether data was changed.
+     */
+    private boolean wasChanged = false;
+
+    /*
+     * (non-Javadoc)
+     * @see model.DocumentHolder#isWasChanged()
+     */
+    public final boolean wasChanged() {
+        return wasChanged;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see model.DocumentHolder#setWasChanged(boolean)
+     */
+    public final void setWasChanged(final boolean wasChanged) {
+        this.wasChanged = wasChanged;
+    }
+
+    /**
      * Logger to use for debug.
      */
     private Logger log = Logger.getLogger(SessionManager.class.getName());
@@ -34,22 +55,22 @@ public class SessionManager implements DocumentHolder {
         return this.currentDocument;
     }
 
-    /**
-     * Set current document using data from array.
-     * @param doc
-     *        Table to use data from.
+    /*
+     * (non-Javadoc)
+     * @see model.DocumentHolder#setCurrentDocumentAsArray(double[][])
      */
     public final void setCurrentDocumentAsArray(final double[][] doc) {
         this.currentDocument.clear();
         for (final double[] ds : doc) {
             this.currentDocument.add(new Bubble(ds[0], ds[1], ds[2]));
         }
-        log.info(String.format("Current document: %s", this.currentDocument));
+        log.info(String.format("Current document: %s",
+                this.currentDocument));
     }
 
-    /**
-     * Get current document represented by array.
-     * @return Table containing all document data.
+    /*
+     * (non-Javadoc)
+     * @see model.DocumentHolder#getCurrentDocumentAsArray()
      */
     public final double[][] getCurrentDocumentAsArray() {
         double[][] doc = new double[this.currentDocument.size()][Bubble.NUMBER_OF_PROPERTIES];

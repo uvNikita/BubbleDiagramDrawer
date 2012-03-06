@@ -19,6 +19,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import model.BubbleTableModel;
+import model.DocumentHolder;
 import model.SessionManager;
 import bubbleDrawer.BubblePanel;
 import csv.CSVParseException;
@@ -35,7 +36,7 @@ public class MainFrame extends JFrame implements TableModelListener {
     /**
      * Current manager of data.
      */
-    private final SessionManager sessionManager;
+    private final DocumentHolder sessionManager;
     /**
      * Default window width.
      */
@@ -93,7 +94,8 @@ public class MainFrame extends JFrame implements TableModelListener {
         this
                 .setSize(new Dimension(this.DEFAULT_WIDTH,
                         this.DEFAULT_HEIGHT));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new CloseAction(this, this.sessionManager));
     }
 
     /**
