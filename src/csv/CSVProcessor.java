@@ -43,7 +43,7 @@ public class CSVProcessor {
      * @throws CSVParseException
      *         if something wrong with parse stage. For example length of rows
      *         doesn't match or not all of values are double.
-     * @return Double[][] table contained parsed values.
+     * @return double[][] table containing parsed values.
      */
     public final double[][] read(final File file) throws IOException,
             CSVParseException {
@@ -65,8 +65,8 @@ public class CSVProcessor {
             for (int j = 0; j < width; j++) {
 
                 if (row.length != width) {
-                    throw new CSVParseException(
-                            "Length of rows doesn't match", i);
+                    throw new CSVParseException("Length of rows doesn't match",
+                            i);
                 }
                 try {
                     table[i][j] = Double.parseDouble(row[j]);
@@ -91,6 +91,8 @@ public class CSVProcessor {
      * Write csv lines to file.
      * @param file
      *        File to write lines into.
+     * @param rows
+     *        table containing data to write.
      * @throws IOException
      *         if have problems with saving to File.
      */
