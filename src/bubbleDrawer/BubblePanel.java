@@ -9,24 +9,50 @@ import javax.swing.JPanel;
 
 import model.DocumentHolder;
 
+/**
+ * @author Nikita Uvarov
+ * Panel used to represent bubble diagram.
+ */
 public class BubblePanel extends JPanel {
+    /**
+     * Generated serialBersionUID.
+     */
+    private static final long serialVersionUID = -1270368110739421155L;
+    /**
+     * Container of data to visualize.
+     */
     private final DocumentHolder holder;
+    /**
+     * Drawer which knows how to draw bubble diagram.
+     */
     private final BubbleDrawer bubbleDrawer;
 
+    /**
+     * Creates BubblePanel using specified holder of data.
+     * @param holder
+     *        Container of data to visualize.
+     */
     public BubblePanel(final DocumentHolder holder) {
         this.bubbleDrawer = new BubbleDrawer(holder);
         this.holder = holder;
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     @Override
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         this.bubbleDrawer.draw(g);
     }
 
+    /**
+     * Convert panel Graphics to Image.
+     * @return Image containing whole diagram.
+     */
     public Image getImage() {
-        BufferedImage img = new BufferedImage(this.getWidth(), this
-                .getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage img = new BufferedImage(this.getWidth(),
+                this.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) img.getGraphics();
         g2.setBackground(getBackground());
         g2.clearRect(0, 0, getSize().width, getSize().height);
