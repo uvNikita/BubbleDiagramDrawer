@@ -129,6 +129,11 @@ public class MainFrame extends JFrame implements TableModelListener {
         edit.add(addRowItem);
         addRowItem.addActionListener(new AddRowAction(this.table));
 
+        JMenuItem delRowItem = new JMenuItem("Del row");
+        delRowItem.setMnemonic('d');
+        edit.add(delRowItem);
+        delRowItem.addActionListener(new DelRowAction(this.table));
+
         final JMenuBar bar = new JMenuBar();
         setJMenuBar(bar);
         bar.add(file);

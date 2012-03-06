@@ -125,4 +125,12 @@ public class BubbleTableModel extends AbstractTableModel {
         this.fireTableStructureChanged();
     }
 
+    /**
+     * Delete row.
+     * @param index an index of row which must be deleted.
+     */
+    public final void delRow(final int index) {
+        holder.getCurrentDocument().remove(index);
+        fireTableStructureChanged();
+    }
 }
