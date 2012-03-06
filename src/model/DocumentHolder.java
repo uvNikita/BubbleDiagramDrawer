@@ -2,9 +2,18 @@ package model;
 
 import java.util.List;
 
+/**
+ * @author Nikita Uvarov
+ * Bubble diagram data holder.
+ */
 public interface DocumentHolder {
     List<Bubble> getCurrentDocument();
 
+    /**
+     * Set current document using List.
+     * @param doc
+     *        List to take data from.
+     */
     void setCurrentDocument(List<Bubble> doc);
 
     /**
@@ -25,11 +34,11 @@ public interface DocumentHolder {
      * @param doc
      *        Table to use data from.
      */
-    public void setCurrentDocumentAsArray(final double[][] doc);
+    void setCurrentDocumentAsArray(final double[][] doc);
 
     /**
      * Get current document represented by array.
      * @return Table containing all document data.
      */
-    public double[][] getCurrentDocumentAsArray();
+    double[][] getCurrentDocumentAsArray();
 }
