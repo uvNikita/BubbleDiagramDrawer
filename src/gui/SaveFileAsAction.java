@@ -75,6 +75,7 @@ public class SaveFileAsAction extends AbstractAction {
                 try {
                     csvProc.write(file, this.sessionManager
                             .getCurrentDocumentAsArray());
+                    this.sessionManager.setWasChanged(false);
                 } catch (final IOException e1) {
                     JOptionPane.showMessageDialog(this.frame,
                             "Error while accessing file.");
