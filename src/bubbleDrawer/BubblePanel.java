@@ -41,7 +41,7 @@ public class BubblePanel extends JPanel {
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    public void paintComponent(final Graphics g) {
+    public final void paintComponent(final Graphics g) {
         super.paintComponent(g);
         this.bubbleDrawer.draw(g);
     }
@@ -50,7 +50,7 @@ public class BubblePanel extends JPanel {
      * Convert panel Graphics to Image.
      * @return Image containing whole diagram.
      */
-    public Image getImage() {
+    public final Image getImage() {
         BufferedImage img = new BufferedImage(this.getWidth(),
                 this.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = (Graphics2D) img.getGraphics();
