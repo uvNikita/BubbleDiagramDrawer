@@ -17,14 +17,31 @@ import model.SessionManager;
 import csv.CSVParseException;
 import csv.CSVProcessor;
 
+/**
+ * @author Nikita Uvarov
+ * Action to open csv files.
+ */
 class OpenFileAction extends AbstractAction {
     /**
-     * 
+     * Generated serialVersionUID.
      */
     private static final long serialVersionUID = 1247486436377126288L;
+    /**
+     * Parent frame.
+     */
     private final JFrame frame;
+    /**
+     * Manager to fill data in.
+     */
     private final SessionManager sessionManager;
 
+    /**
+     * Creates OpenFileAction using specified parent frame and data holder.
+     * @param frame
+     *        Parent frame.
+     * @param sessionManager
+     *        Container of data to fill in.
+     */
     public OpenFileAction(final JFrame frame,
             final SessionManager sessionManager) {
         super("Open...");
@@ -45,11 +62,12 @@ class OpenFileAction extends AbstractAction {
             final File file = chooser.getSelectedFile();
             final CSVProcessor csvProc = new CSVProcessor(" ");
             try {
-                this.sessionManager.setCurrentDocumentAsArray(csvProc.read(file));
+                this.sessionManager.setCurrentDocumentAsArray(csvProc
+                        .read(file));
                 SwingUtilities.updateComponentTreeUI(this.frame);
             } catch (final CSVParseException e1) {
-                JOptionPane.showMessageDialog(this.frame,
-                        "Error while parsing");
+                JOptionPane
+                        .showMessageDialog(this.frame, "Error while parsing");
             } catch (final IOException e1) {
                 JOptionPane.showMessageDialog(this.frame,
                         "Error while accessing file.");

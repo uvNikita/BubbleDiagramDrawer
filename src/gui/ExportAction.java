@@ -19,12 +19,30 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import bubbleDrawer.BubblePanel;
 
 /**
- * @author nikita
+ * @author Nikita Uvarov 
+ * Action to save data as image.
  */
 public class ExportAction extends AbstractAction {
+    /**
+     * Generated serialVersionUID.
+     */
+    private static final long serialVersionUID = 3328086658058185010L;
+    /**
+     * Parent frame.
+     */
     private JFrame frame;
+    /**
+     * Panel containing data to export image from.
+     */
     private BubblePanel panel;
 
+    /**
+     * Creates ExportAction using specified parent frame and panel container.
+     * @param frame
+     *        Parent frame.
+     * @param panel
+     *        Container of data to export.
+     */
     public ExportAction(JFrame frame, BubblePanel panel) {
         this.frame = frame;
         this.panel = panel;
@@ -38,8 +56,8 @@ public class ExportAction extends AbstractAction {
     @Override
     public void actionPerformed(final ActionEvent e) {
         final JFileChooser chooser = new JFileChooser(".");
-        FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter(
-                "JPEG", "jpeg", "jpg");
+        FileNameExtensionFilter jpgFilter = new FileNameExtensionFilter("JPEG",
+                "jpeg", "jpg");
         chooser.setFileFilter(jpgFilter);
         while (true) {
             final int returnVal = chooser.showSaveDialog(this.frame);
@@ -49,10 +67,9 @@ public class ExportAction extends AbstractAction {
                     int react = JOptionPane
                             .showConfirmDialog(
                                     this.frame,
-                                    String
-                                            .format(
-                                                    "The file '%s' already exists. Do you want to overwrite it?",
-                                                    file.getAbsolutePath()));
+                                    String.format(
+                                            "The file '%s' already exists. Do you want to overwrite it?",
+                                            file.getAbsolutePath()));
                     if (react == JOptionPane.CANCEL_OPTION) {
                         return;
                     } else if (react == JOptionPane.NO_OPTION) {

@@ -17,12 +17,30 @@ import csv.CSVProcessor;
 import model.SessionManager;
 
 /**
- * @author nikita
+ * @author Nikita Uvarov
+ * Action to save file as csv.
  */
 public class SaveFileAsAction extends AbstractAction {
+    /**
+     * Generated serialVersionUID.
+     */
+    private static final long serialVersionUID = 3369141372489805599L;
+    /**
+     * Holder of data to save.
+     */
     SessionManager sessionManager;
+    /**
+     * Parent frame.
+     */
     JFrame frame;
 
+    /**
+     * Create SaveFileAsAction using specified parent frame and data holder.
+     * @param frame
+     *        Parent frame.
+     * @param sessionManager
+     *        Holder of data to save.
+     */
     public SaveFileAsAction(JFrame frame, SessionManager sessionManager) {
         this.frame = frame;
         this.sessionManager = sessionManager;
@@ -41,8 +59,7 @@ public class SaveFileAsAction extends AbstractAction {
             final File file = chooser.getSelectedFile();
             final CSVProcessor csvProc = new CSVProcessor(" ");
             try {
-                csvProc.write(file, sessionManager
-                        .getCurrentDocumentAsArray());
+                csvProc.write(file, sessionManager.getCurrentDocumentAsArray());
             } catch (IOException e1) {
                 JOptionPane.showMessageDialog(this.frame,
                         "Error while accessing file.");
