@@ -16,7 +16,7 @@ public class Bubble {
      * @author Nikita Uvarov
      * Class using to compare Bubble by value of Radius.
      */
-    static class ComparatorByRadius implements Comparator<Bubble> {
+    private static class ComparatorByRadius implements Comparator<Bubble> {
 
         /*
          * (non-Javadoc)
@@ -36,7 +36,7 @@ public class Bubble {
      * @author Nikita Uvarov
      * Class using to compare Bubble by value of X coordinate.
      */
-    static class ComparatorByX implements Comparator<Bubble> {
+    private static class ComparatorByX implements Comparator<Bubble> {
 
         /*
          * (non-Javadoc)
@@ -56,7 +56,7 @@ public class Bubble {
      * @author Nikita Uvarov
      * Class using to compare Bubble by value of Y coordinate.
      */
-    static class ComparatorByY implements Comparator<Bubble> {
+    private static class ComparatorByY implements Comparator<Bubble> {
 
         /*
          * (non-Javadoc)
