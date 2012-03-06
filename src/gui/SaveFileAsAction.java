@@ -17,7 +17,7 @@ import csv.CSVProcessor;
 import model.SessionManager;
 
 /**
- * @author Nikita Uvarov
+ * @author Nikita Uvarov 
  * Action to save file as csv.
  */
 public class SaveFileAsAction extends AbstractAction {
@@ -52,18 +52,35 @@ public class SaveFileAsAction extends AbstractAction {
      * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e) {
+    public final void actionPerformed(final ActionEvent e) {
         final JFileChooser chooser = new JFileChooser(".");
-        final int returnVal = chooser.showSaveDialog(frame);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            final File file = chooser.getSelectedFile();
-            final CSVProcessor csvProc = new CSVProcessor(" ");
-            try {
-                csvProc.write(file, sessionManager.getCurrentDocumentAsArray());
-            } catch (IOException e1) {
-                JOptionPane.showMessageDialog(this.frame,
-                        "Error while accessing file.");
+        while (true) {
+            final int returnVal = chooser.showSaveDialog(frame);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                final File file = chooser.getSelectedFile();
+                if (file.exists()) {
+                    int react = JOptionPane
+                            .showConfirmDialog(
+                                    this.frame,
+                                    String.format(
+                                            "The file '%s' already exists. Do you want to overwrite it?",
+                                            file.getAbsolutePath()));
+                    if (react == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    } else if (react == JOptionPane.NO_OPTION) {
+                        continue;
+                    }
+                }
+                final CSVProcessor csvProc = new CSVProcessor(" ");
+                try {
+                    csvProc.write(file, sessionManager
+                            .getCurrentDocumentAsArray());
+                } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(this.frame,
+                            "Error while accessing file.");
+                }
             }
+            return;
         }
     }
 
